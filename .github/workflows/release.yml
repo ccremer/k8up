@@ -37,11 +37,9 @@ jobs:
         ignorePreReleases: "true"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: make release notes
-      run: echo "${{steps.build_changelog.outputs.changelog}}" >> .github/release-notes.md
     - name: Publish releases
       uses: goreleaser/goreleaser-action@v2
       with:
-        args: release --release-notes .github/release-notes.md
+        args: release --release-notes <(echo "Changes since last release\n\n${{steps.build_changelog.outputs.changelog}}")
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
