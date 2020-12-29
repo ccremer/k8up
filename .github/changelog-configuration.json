@@ -1,0 +1,24 @@
+{
+    "categories": [
+        {
+            "title": "## 🚀 Features",
+            "labels": ["enhancement", "feature"]
+        },
+        {
+            "title": "## ⚠️ (Breaking) Changes",
+            "labels": ["change"]
+        },
+        {
+            "title": "## 🐛 Fixes",
+            "labels": ["bug", "fix"]
+        },
+        {
+            "title": "## 📄 Documentation",
+            "labels": ["documentation"]
+        }
+    ],
+    "sort": "ASC",
+    "template": "${{CHANGELOG}}",
+    "pr_template": "- ${{TITLE}}\n   - PR: #${{NUMBER}}",
+    "empty_template": "- no changes"
+}
