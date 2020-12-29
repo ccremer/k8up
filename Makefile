@@ -36,9 +36,9 @@ SETUP_E2E_TEST := testbin/.setup_e2e_test
 ENABLE_LEADER_ELECTION ?= false
 
 # Image URL to use all building/pushing image targets
-DOCKER_IMG ?= docker.io/vshn/k8up:$(IMG_TAG)
-QUAY_IMG ?= quay.io/vshn/k8up:$(IMG_TAG)
-E2E_IMG ?= localhost:$(KIND_REGISTRY_PORT)/vshn/k8up:e2e
+DOCKER_IMG ?= docker.io/ccremer/k8up:$(IMG_TAG)
+QUAY_IMG ?= quay.io/ccremer/k8up:$(IMG_TAG)
+E2E_IMG ?= localhost:$(KIND_REGISTRY_PORT)/ccremer/k8up:e2e
 
 build_cmd ?= CGO_ENABLED=0 go build -o $(BIN_FILENAME) main.go
 
@@ -115,7 +115,7 @@ lint: fmt vet ## Invokes the fmt and vet targets
 $(BIN_FILENAME):
 	$(build_cmd)
 
-docker-build: $(BIN_FILENAME) $(KIND_KUBECONFIG) ## Build the docker image
+docker-build: $(BIN_FILENAME) ## Build the docker image
 	docker build . -t $(DOCKER_IMG) -t $(QUAY_IMG) -t $(E2E_IMG)
 
 docker-push: ## Push the docker image
@@ -132,7 +132,7 @@ bundle: generate ## Generate bundle manifests and metadata, then validate genera
 install_bats: ## Installs the bats util via NPM
 	$(MAKE) -C e2e install_bats
 
-e2e_test: install_bats $(SETUP_E2E_TEST) docker-build ## Runs the e2e test suite
+e2e_test: install_bats $(SETUP_E2E_TEST) $(KIND_KUBECONFIG) docker-build ## Runs the e2e test suite
 	docker push $(E2E_IMG)
 	$(MAKE) -C e2e run_bats -e KUBECONFIG=../$(KIND_KUBECONFIG)
 
