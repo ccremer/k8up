@@ -30,11 +30,17 @@ jobs:
     - name: "Build Changelog"
       id: build_changelog
       uses: mikepenz/release-changelog-builder-action@v1.2.3
+      with:
+        #configuration: "configuration_complex.json"
+        owner: "ccremer"
+        repo: "k8up"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: make release notes
+      run: echo "${{steps.build_changelog.outputs.changelog}}" >> .github/release-notes.md
     - name: Publish releases
       uses: goreleaser/goreleaser-action@v2
       with:
-        args: release --release-notes <(echo ${{steps.github_release.outputs.changelog}})
+        args: release --release-notes .github/release-notes.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
