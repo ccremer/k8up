@@ -36,7 +36,6 @@ You'll need:
 These are the most common make targets: `build`, `test`, `docker-build`, `run`.
 Run `make help` to get an overview over the relevant targets and their intentions.
 
-
 ## Generate kubernetes code
 
 If you make changes to the CRD structs you'll need to run code generation. This can be done with make:
